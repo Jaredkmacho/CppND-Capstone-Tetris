@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "SDL",
+            "includePath": [
+                "/home/workspace/CppND-Capstone-Snake-Game/src",
+                "/usr/include/SDL2"
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "/home/workspace/CppND-Capstone-Snake-Game/src",
+                    "/usr/include/SDL2"
+                ]
+            }
+        }
+    ],
+    "version": 4
+}
