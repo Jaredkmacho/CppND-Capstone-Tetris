@@ -218,7 +218,7 @@ J_Piece::J_Piece(int pfWidth) {
     Yposition_ = 0;
     setSprite(orientation_);  
 
-    color_ = {0x00, 0x00, 0xFF, 0x1E};
+    color_ = {0x20, 0x20, 0xFF, 0x1E};
 }
 
 L_Piece::L_Piece(int pfWidth) {
@@ -362,31 +362,31 @@ void Piece::Rotate(Playfield *playfield) {
 
     TETRIS_STATUS ret = playfield->evaluateActivePiece(this);
     if(ret == TETRIS_STATUS::PIECE_BLOCKED) {
-        std::cout << "BLOCKED ROTATION" << std::endl;
+        //std::cout << "BLOCKED ROTATION" << std::endl; //debug stuff
         if(--orientation_ < 0) 
             orientation_ = 3;
         setSprite(orientation_);
     } else if (ret == TETRIS_STATUS::PIECE_FIT) {
-        //TODO: Check if rotation clips a wall, if true shift the oposite side
-        std::cout << "PIECE FIT" << std::endl;
+        //Check if rotation clips a wall, if true rotate back
+        //std::cout << "PIECE FIT" << std::endl; //debug stuff
         int tmp[4];
         for(int i = 0; i < 4; i++) {
             tmp[i] = cell_id_[i] % playfield->getPlayfieldWidth();
-            std::cout << "tmp " << i << " = "<< tmp[i] << std::endl;
+            //std::cout << "tmp " << i << " = "<< tmp[i] << std::endl; //debug stuff
         }
         int it = 0;
         bool split = false;
         while(it < 4) {
             for(int i = 0; i < 4; i++) {
                 split = abs(tmp[it] - tmp[i]) >= sprite_width;
-                std::cout << "dif " << it << " = "<< abs(tmp[it] - tmp[i]) << std::endl;
+                //std::cout << "dif " << it << " = "<< abs(tmp[it] - tmp[i]) << std::endl; //debug stuff
             }
             if(split) break;
             ++it;
         }
         if(split) {
-            std::cout << "SPLIT ROTATION" << std::endl;
-            //TODO: Check if rotation fits after shifing place
+            //std::cout << "SPLIT ROTATION" << std::endl; //debug stuff
+            //TODO: Check if rotation fits after shifing to the side.
             // if( ShiftLeft(playfield) ) return;
             // if( ShiftRight(playfield) ) return;
             if(--orientation_ < 0) 
@@ -590,8 +590,9 @@ int Playfield::Update(Piece *piece) {
         }
         else repeat = false;
     }
-
-    std::cout << "lines affected: " << lines_affected.size() << std::endl;
+    #ifdef VERBOSE
+    std::cout << "lines affected: " << lines_affected.size() << std::endl; //debug stuff
+    #endif
     
     // Check line completion
     for(int line : lines_affected) {
@@ -606,7 +607,9 @@ int Playfield::Update(Piece *piece) {
         }
             
     }
+    #ifdef VERBOSE
     for(int line : completed_lines) std::cout << "clear line: " << line << std::endl;
+    #endif
 
     // Shift remaining lines down
     if(!completed_lines.empty()) {
@@ -624,8 +627,10 @@ int Playfield::Update(Piece *piece) {
                 }
             } 
         }
+        #ifdef VERBOSE
         std::cout << "shifted cells: " << shift_count << std::endl;
         std::cout << "cleared cells: " << clear_count << std::endl;
+        #endif
     }
 
     return completed_lines.size();

@@ -20,35 +20,37 @@ void Controller::HandleInput(bool &running, Tetris &tetris) {
                 case SDLK_UP:
                     //TODO: Implement Rotate command
                     UP_ARROW->execute(&tetris);
-                    std::cout << "UP" << std::endl;
+                    //std::cout << "UP" << std::endl;
                     break;
                 case SDLK_LEFT:
                     //TODO: Implement MoveLeft command
                     LEFT_ARROW->execute(&tetris);
-                    std::cout << "LEFT" << std::endl;
+                    //std::cout << "LEFT" << std::endl;
                     break;
                 case SDLK_RIGHT:
                     //TODO: Implement MoveRight command
                     RIGHT_ARROW->execute(&tetris);
-                    std::cout << "RIGHT" << std::endl;
+                    //std::cout << "RIGHT" << std::endl;
                     break;
                 case SDLK_DOWN:
                     //TODO: Implement MoveRight command
                     DOWN_ARROW->execute(&tetris);
-                    std::cout << "DOWN" << std::endl;
+                    //std::cout << "DOWN" << std::endl;
                     break;
                 case SDLK_SPACE:
-                    std::cout << "SPACE" << std::endl;
+                    //std::cout << "SPACE" << std::endl;
                     SPACE->execute(&tetris);
                     break;
                 case SDLK_RCTRL:
-                    std::cout << "SAVE" << std::endl;
+                    //std::cout << "RCTRL" << std::endl;
                     RIGHT_CTRL->execute(&tetris);
                     break;
 
             }
+            #ifdef VERBOSE
             std::cout << "Position now: X=" << tetris.getActivePiece()->getXPosition() << " Y=" << tetris.getActivePiece()->getYPosition() << std::endl;
             std::cout << "Orientation mode: " << tetris.getActivePiece()->getOrientation() << std::endl;
+            #endif
         }
     }
 }
