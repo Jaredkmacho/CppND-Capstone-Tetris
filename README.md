@@ -1,13 +1,10 @@
-# CPPND: Capstone Tetris!
+## CPPND: Capstone Tetris!
 
 This is my Tetris clone Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213).
 
-**** Known BUGS ****
-
-- Using SLAM when a piece is about to go down causes clipping
-- When clearing multiple non contiguous lines the shifted lines are not correctly calculated
-
-*********************
+* Known BUGS
+ * Using SLAM when a piece is about to go down causes clipping
+ * When clearing multiple non contiguous lines the shifted lines are not correctly calculated
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
@@ -29,5 +26,19 @@ This is my Tetris clone Capstone project in the [Udacity C++ Nanodegree Program]
 1. Clone this repo.
 2. Make a build directory in the top level directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./Tetris`.# CppND-Capstone-Tetris
-# CppND-Capstone-Tetris
+4. Run it: `./Tetris`.
+
+
+## CC Attribution-ShareAlike 4.0 International
+
+
+Shield: [![CC BY-SA 4.0][cc-by-sa-shield]][cc-by-sa]
+
+This work is licensed under a
+[Creative Commons Attribution-ShareAlike 4.0 International License][cc-by-sa].
+
+[![CC BY-SA 4.0][cc-by-sa-image]][cc-by-sa]
+
+[cc-by-sa]: http://creativecommons.org/licenses/by-sa/4.0/
+[cc-by-sa-image]: https://licensebuttons.net/l/by-sa/4.0/88x31.png
+[cc-by-sa-shield]: https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg
