@@ -7,6 +7,7 @@ Controller::Controller() {
     LEFT_ARROW = new MoveLeftCommand();
     DOWN_ARROW = new MoveDownCommand();
     SPACE = new SlamCommand();
+    RIGHT_CTRL = new SaveCommand();
 }
 
 void Controller::HandleInput(bool &running, Tetris &tetris) {
@@ -39,6 +40,10 @@ void Controller::HandleInput(bool &running, Tetris &tetris) {
                 case SDLK_SPACE:
                     std::cout << "SPACE" << std::endl;
                     SPACE->execute(&tetris);
+                    break;
+                case SDLK_RCTRL:
+                    std::cout << "SAVE" << std::endl;
+                    RIGHT_CTRL->execute(&tetris);
                     break;
 
             }

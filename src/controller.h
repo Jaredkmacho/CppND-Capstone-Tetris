@@ -46,6 +46,13 @@ public:
     }
 };
 
+class SaveCommand : public Command {
+public:
+    virtual void execute(Tetris *tetris) {
+        tetris->savePiece();
+    }
+};
+
 class Controller {
 public:
     Controller();
@@ -57,6 +64,7 @@ private:
     Command* RIGHT_ARROW;
     Command* DOWN_ARROW;
     Command* SPACE;
+    Command* RIGHT_CTRL;
 };
 
 

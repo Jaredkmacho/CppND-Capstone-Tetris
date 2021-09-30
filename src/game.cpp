@@ -1,6 +1,7 @@
 #include "game.h"
+#include <iostream>
 
-Game::Game() : engine(dev()), rdm_orientation(0, 3), rdm_piece(0,6) {
+Game::Game() {
     tetris.spawnPiece();
 }
 
@@ -18,7 +19,7 @@ void Game::Run(Controller &controller, Renderer &renderer,
 
         // Input, Update, Render - the main game loop.
         controller.HandleInput(running, tetris);
-        Update();
+        Update(running);
         renderer.Render(tetris);
 
         frame_end = SDL_GetTicks();
@@ -27,7 +28,7 @@ void Game::Run(Controller &controller, Renderer &renderer,
         frame_duration = frame_end - frame_start;
 
         if (frame_end - title_timestamp >= 1000) {
-            renderer.UpdateWindowTitle(0, frame_count);
+            renderer.UpdateWindowTitle(tetris.getLinesCleared(), frame_count);
             frame_count = 0;
             title_timestamp = frame_end;
         }
@@ -37,8 +38,11 @@ void Game::Run(Controller &controller, Renderer &renderer,
         }
 
     }
+
+    std::cout << "   --- Game Over ----   " << std::endl;
+    std::cout << "Total lines cleared: " << tetris.getLinesCleared() << "!!" << std::endl;
 }
 
-void Game::Update() {
-    tetris.Update();
+void Game::Update(bool &running) {
+    tetris.Update(running);
 }

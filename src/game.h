@@ -15,12 +15,7 @@ public:
 private:
     Tetris tetris;
 
-    std::random_device dev;
-    std::mt19937 engine;
-    std::uniform_int_distribution<int> rdm_orientation;
-    std::uniform_int_distribution<int> rdm_piece;
-
-    void Update();
+    void Update(bool &running);
 };
 
 

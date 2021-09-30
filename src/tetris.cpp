@@ -200,9 +200,10 @@ void Z_Piece::setSprite(int mode) {
 }
 
 I_Piece::I_Piece(int pfWidth) {
+    type_ = TETRIS_PIECE::I;
     Ydelay = 0;
     orientation_ = 0;
-    Xposition_ = pfWidth / 2 - 1;
+    Xposition_ = pfWidth / 2 - 2;
     Yposition_ = 0;
     setSprite(orientation_);  
 
@@ -210,6 +211,7 @@ I_Piece::I_Piece(int pfWidth) {
 }
 
 J_Piece::J_Piece(int pfWidth) {
+    type_ = TETRIS_PIECE::J;
     Ydelay = 0;
     orientation_ = 0;
     Xposition_ = pfWidth / 2 - 1;
@@ -220,6 +222,7 @@ J_Piece::J_Piece(int pfWidth) {
 }
 
 L_Piece::L_Piece(int pfWidth) {
+    type_ = TETRIS_PIECE::L;
     Ydelay = 0;
     orientation_ = 0;
     Xposition_ = pfWidth / 2 - 1;
@@ -230,6 +233,7 @@ L_Piece::L_Piece(int pfWidth) {
 }
 
 O_Piece::O_Piece(int pfWidth) {
+    type_ = TETRIS_PIECE::O;
     Ydelay = 0;
     orientation_ = 0;
     Xposition_ = pfWidth / 2 - 2;
@@ -240,6 +244,7 @@ O_Piece::O_Piece(int pfWidth) {
 }
 
 S_Piece::S_Piece(int pfWidth) {
+    type_ = TETRIS_PIECE::S;
     Ydelay = 0;
     orientation_ = 0;
     Xposition_ = pfWidth / 2 - 1;
@@ -250,6 +255,7 @@ S_Piece::S_Piece(int pfWidth) {
 }
 
 T_Piece::T_Piece(int pfWidth) {
+    type_ = TETRIS_PIECE::T;
     Ydelay = 0;
     orientation_ = 0;
     Xposition_ = pfWidth / 2 - 1;
@@ -260,6 +266,7 @@ T_Piece::T_Piece(int pfWidth) {
 }
 
 Z_Piece::Z_Piece(int pfWidth) {
+    type_ = TETRIS_PIECE::Z;
     Ydelay = 0;
     orientation_ = 0;
     Xposition_ = pfWidth / 2 - 1;
@@ -400,10 +407,10 @@ bool Piece::evaluatePlace(Playfield *playfield) {
 
 TETRIS_STATUS Piece::Update(Playfield *playfield) {
 
-    Ydelay++;
+    Ydelay += speed_;
     if(Ydelay > 60) {
         if(evaluatePlace(playfield)) {
-            playfield->colorActivePiece(this);
+            playfield->colorPiece(this);
             playfield->placeActivePiece(this);
             return PIECE_PLACED;
         } else {
@@ -454,30 +461,30 @@ Playfield::~Playfield() {
 
 }
 
-Playfield::Playfield(const Playfield &source) {
-    playfield_outbox_ = source.playfield_outbox_;
-    playfield_inbox_ = source.playfield_inbox_;
-}
+// Playfield::Playfield(const Playfield &source) {
+//     playfield_outbox_ = source.playfield_outbox_;
+//     playfield_inbox_ = source.playfield_inbox_;
+// }
 
 void Playfield::generatePlayfield(SDL_Point pOrigin) {
-    int playfield_width = cell_size_ * (playfield_width_+1);
-    int playfield_height = cell_size_* (playfield_height_+1);
+    int playfield_width = cell_size_ * (playfield_width_);
+    int playfield_height = cell_size_* (playfield_height_);
     int out_offset = 3;
     int in_offset = 1; 
 
     playfield_outbox_ = {
         {pOrigin.x - out_offset, pOrigin.y - out_offset},
-        {pOrigin.x - out_offset, playfield_height + out_offset},
-        {playfield_width + out_offset, playfield_height + out_offset},
-        {playfield_width + out_offset, pOrigin.y - out_offset},
+        {pOrigin.x - out_offset, pOrigin.y + playfield_height + out_offset},
+        {pOrigin.x + playfield_width + out_offset, pOrigin.y + playfield_height + out_offset},
+        {pOrigin.x + playfield_width + out_offset, pOrigin.y - out_offset},
         {pOrigin.x - out_offset, pOrigin.y - out_offset}
     };
 
     playfield_inbox_ = {
         {pOrigin.x - in_offset, pOrigin.y - in_offset},
-        {pOrigin.x - in_offset, playfield_height + in_offset},
-        {playfield_width + in_offset, playfield_height + in_offset},
-        {playfield_width + in_offset, pOrigin.y - in_offset},
+        {pOrigin.x - in_offset, pOrigin.y + playfield_height + in_offset},
+        {pOrigin.x + playfield_width + in_offset, pOrigin.y +playfield_height + in_offset},
+        {pOrigin.x + playfield_width + in_offset, pOrigin.y - in_offset},
         {pOrigin.x - in_offset, pOrigin.y - in_offset}
     };
 
@@ -527,7 +534,7 @@ TETRIS_STATUS Playfield::evaluateActivePiece(Piece *piece) {
     return PIECE_FIT;
 }
 
-void Playfield::colorActivePiece(Piece *piece) {
+void Playfield::colorPiece(Piece *piece) {
     int id = 0;
     int sprite_length;
     if(piece->getSprite().size() > 9) sprite_length = 4; else sprite_length = 3;
@@ -544,14 +551,11 @@ void Playfield::colorActivePiece(Piece *piece) {
 
 void Playfield::clearActivePiece(Piece *piece) {
     SDL_Color color = { 0x50, 0x50, 0x50, 0xFF };
-    
-    //std::cout << "id= ";
+
     for(int id : piece->cell_id_) {
-        //std::cout << id << " ";
         if(!cells_[id].getCellStatus())
             cells_[id].setCellColor(color);
     }
-    //std::cout << std::endl;
 }
 
 void Playfield::placeActivePiece(Piece *piece) {
@@ -569,14 +573,14 @@ void Playfield::clearLine(int line) {
     }
 }
 
-TETRIS_STATUS Playfield::Update(Piece *piece) {
+int Playfield::Update(Piece *piece) {
     int line_check;
     bool line_complete;
     std::vector<int> completed_lines = {};
     std::vector<int> lines_affected = {};
     bool repeat = false;
 
-    //Get lines affected by piece placement
+    // Get lines affected by piece placement
     for(int id : piece->cell_id_) {
         for(int i : lines_affected) {
             if( i == id / playfield_width_ ) repeat = true;
@@ -589,7 +593,7 @@ TETRIS_STATUS Playfield::Update(Piece *piece) {
 
     std::cout << "lines affected: " << lines_affected.size() << std::endl;
     
-    //Check line completion
+    // Check line completion
     for(int line : lines_affected) {
         for(int i = 0; i < playfield_width_; i++) {
             line_complete = cells_[i + (playfield_width_*line)].getCellStatus();
@@ -604,7 +608,7 @@ TETRIS_STATUS Playfield::Update(Piece *piece) {
     }
     for(int line : completed_lines) std::cout << "clear line: " << line << std::endl;
 
-    //TODO: Shift remaining lines down
+    // Shift remaining lines down
     if(!completed_lines.empty()) {
         std::sort(completed_lines.begin(), completed_lines.end());
         int shift_count = 0;
@@ -624,22 +628,74 @@ TETRIS_STATUS Playfield::Update(Piece *piece) {
         std::cout << "cleared cells: " << clear_count << std::endl;
     }
 
-    //THIS IS STILL REPEATING COMPLETED LINES*******
+    return completed_lines.size();
 
 }
 
+Sidefield::Sidefield(SDL_Point pOrigin) {
+    playfield_width_ = sidefield_width_;
+    playfield_height_ = sidefield_height_;
+    cell_size_ = sidecell_size_;
 
-Tetris::Tetris() {
+    generatePlayfield(pOrigin);
+}
+
+void Sidefield::colorPiece(Piece *piece) {
+    int id = 0;
+    int y = 0;
+    int x = 0;
+    int sprite_length;
+
+    switch(piece->getType()) {
+    case TETRIS_PIECE::I:
+        sprite_length = 4;
+        break;
+    case TETRIS_PIECE::O:
+        sprite_length = 4;
+        y++;
+        break;
+    default:
+        sprite_length = 3;
+        y++;
+        break;
+    }
+    
+    for(int i = 0; i < piece->getSprite().size() ; i++) {
+        if(piece->getSprite()[i] == 1) {
+            piece->cell_id_[id] = x + i % sprite_length + (playfield_width_*(i / sprite_length)) + playfield_width_*y;
+            cells_[piece->cell_id_[id]].setCellColor(piece->getColor());
+            id++;
+        }
+    }
+}
+
+void Sidefield::clearField() {
+    for (int i = 0; i < 16; i++)
+        cells_[i].setCellColor({0x50, 0x50, 0x50, 0xFF});
+}
+
+
+Tetris::Tetris() : engine(dev()),
+      rdm_orientation(0, static_cast<int>(3)),
+      rdm_piece(TETRIS_PIECE::I, TETRIS_PIECE::Z) {
+
+
     SDL_Point pOrigin = {30, 30};
     playfield_ = std::make_shared<Playfield>(pOrigin);
 
-    pieceSpawner_[0] = new SpawnerFor<I_Piece>();
-    pieceSpawner_[1] = new SpawnerFor<J_Piece>();
-    pieceSpawner_[2] = new SpawnerFor<L_Piece>();
-    pieceSpawner_[3] = new SpawnerFor<O_Piece>();
-    pieceSpawner_[4] = new SpawnerFor<S_Piece>();
-    pieceSpawner_[5] = new SpawnerFor<T_Piece>();
-    pieceSpawner_[6] = new SpawnerFor<Z_Piece>();
+    pOrigin = {350, 30};
+    next_field_ = std::make_shared<Sidefield>(pOrigin);
+
+    pOrigin = {350, 200};
+    saved_field_ = std::make_shared<Sidefield>(pOrigin);
+
+    pieceSpawner_[TETRIS_PIECE::I] = new SpawnerFor<I_Piece>();
+    pieceSpawner_[TETRIS_PIECE::J] = new SpawnerFor<J_Piece>();
+    pieceSpawner_[TETRIS_PIECE::L] = new SpawnerFor<L_Piece>();
+    pieceSpawner_[TETRIS_PIECE::O] = new SpawnerFor<O_Piece>();
+    pieceSpawner_[TETRIS_PIECE::S] = new SpawnerFor<S_Piece>();
+    pieceSpawner_[TETRIS_PIECE::T] = new SpawnerFor<T_Piece>();
+    pieceSpawner_[TETRIS_PIECE::Z] = new SpawnerFor<Z_Piece>();
 
 }
 
@@ -647,24 +703,62 @@ Tetris::~Tetris() {
 }
 
 void Tetris::spawnPiece() {
-    activePiece_ = pieceSpawner_[type]->spawnPiece(playfield_->getPlayfieldWidth());
-    playfield_->colorActivePiece(activePiece_);
-    type++;
-    if(type > 6) type = 0;
+    if(activePiece_ == nullptr) {
+        nextType_ = rdm_piece(engine);
+    } else delete activePiece_;
+    activePiece_ = pieceSpawner_[nextType_]->spawnPiece(playfield_->getPlayfieldWidth());
+    activePiece_->setSpeed(1 + linesCleared / 10 );
+    playfield_->colorPiece(activePiece_);
+    nextType_ = rdm_piece(engine);
+    
+    Piece *next = pieceSpawner_[nextType_]->spawnPiece(next_field_->getPlayfieldWidth());
+    next_field_->clearField();
+    next_field_->colorPiece(next);
+    delete next;
+
 }
 
-void Tetris::Update() {
+void Tetris::spawnPiece(int type) {
+    delete activePiece_;
+    activePiece_ = pieceSpawner_[type]->spawnPiece(playfield_->getPlayfieldWidth());
+    activePiece_->setSpeed(1 + linesCleared / 10 );
+    playfield_->colorPiece(activePiece_);
+
+}
+
+
+void Tetris::savePiece() {
+    playfield_->clearActivePiece(activePiece_);
+    if( !savedPiece_ ) {
+        savedPiece_ = true;
+        saveType_ = activePiece_->getType();
+        saved_field_->clearField();
+        saved_field_->colorPiece(activePiece_);
+        spawnPiece();
+    } 
+    else {
+        int holdType = saveType_;
+        saveType_ = activePiece_->getType();
+        saved_field_->clearField();
+        saved_field_->colorPiece(activePiece_);
+
+        spawnPiece(holdType);
+    }
+}
+
+void Tetris::Update(bool &running) {
     playfield_->clearActivePiece(activePiece_);
 
     switch( activePiece_->Update(playfield_.get()) )
     {
     case TETRIS_STATUS::PIECE_ACTIVE:
-        playfield_->colorActivePiece(activePiece_);
+        playfield_->colorPiece(activePiece_);
         break;
     case TETRIS_STATUS::PIECE_PLACED:
-        //TODO: Check if any line has been completed
-        playfield_->Update(activePiece_);
+        //Check if any line has been completed
+        linesCleared += playfield_->Update(activePiece_);
         spawnPiece();
+        running = !activePiece_->evaluatePlace(playfield_.get());
         break;
     default:
         break;
