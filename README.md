@@ -3,8 +3,8 @@
 This is my Tetris clone Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213).
 
 * Known BUGS
- * Using SLAM when a piece is about to go down causes clipping
- * When clearing multiple non contiguous lines the shifted lines are not correctly calculated
+  * Using SLAM when a piece is about to go down causes clipping
+  * When clearing multiple non contiguous lines the shifted lines are not correctly calculated
 
 ## Dependencies for Running Locally
 * cmake >= 3.7
