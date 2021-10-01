@@ -1,6 +1,16 @@
 # CPPND: Capstone Tetris!
 
-This is my Tetris clone Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213).
+This is my Tetris clone Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). 
+
+<img src="Game-screenshot.png"/>
+
+This is the classic Russian puzzle game where you drop pieces strategically to complete as many lines as you can, while avoiding the pieces to stack up to the top. In this version I added the handy next piece preview and the hability to store a piece for later use(which can be easily abused!).
+
+* Keybindings
+  * LEFT, RIGHT and DOWN arrows move the piece.
+  * UP arrow will rotate the piece.
+  * RIGHT CTRL will store the piece or swap it if one is already stored.
+  * SPACE BAR will slam the piece down (this can be glitchy).
 
 * Known BUGS
   * Using SLAM when a piece is about to go down causes clipping
