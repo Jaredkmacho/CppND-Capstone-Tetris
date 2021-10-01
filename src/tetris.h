@@ -4,9 +4,12 @@
 #include <vector>
 #include <random>
 #include <memory>
-#include <SDL2/SDL.h>
+#include <SDL.h>
+#undef main
 #include "tetris_pieces.h"
 
+
+//Forward declaration
 class Playfield;
 
 enum TETRIS_STATUS {

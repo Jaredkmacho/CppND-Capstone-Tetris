@@ -4,6 +4,7 @@
 #include <iostream>
 #include "tetris.h"
 
+
 Piece::~Piece() {}
 
 void I_Piece::setSprite(int mode) {
@@ -445,6 +446,8 @@ void PlayfieldCell::setCellPosition(SDL_Point position) {
 PlayfieldCell &PlayfieldCell::operator<<(PlayfieldCell &source) {
     color_ = source.color_;
     ocupied_ = source.ocupied_;
+
+    return *this;
 }
 
 void PlayfieldCell::Clear() {

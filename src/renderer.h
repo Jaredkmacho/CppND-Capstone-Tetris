@@ -2,7 +2,8 @@
 #define RENDERER_H
 
 #include <vector>
-#include "SDL2/SDL.h"
+#include "SDL.h"
+#undef main
 #include "tetris.h"
 
 

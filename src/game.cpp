@@ -11,7 +11,7 @@ void Game::Run(Controller &controller, Renderer &renderer,
     uint32_t frame_start;
     uint32_t frame_end;
     uint32_t frame_duration;
-    int frame_count;
+    int frame_count = 0;
     bool running = true;
 
     while (running) {
