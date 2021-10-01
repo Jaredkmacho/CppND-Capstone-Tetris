@@ -68,6 +68,17 @@ This is the classic Russian puzzle game where you drop pieces strategically to c
 * Templates generalize functions in the project. 
   * See [template spawnerFor class](https://github.com/Jaredkmacho/CppND-Capstone-Tetris/blob/5b2aa8ccc6276eaed3337273062153d2cbddbdd5/src/tetris.h#L125-L129) that can be used with any of the Piece derived classes. 
 
+## Memory Management
+
+* The project makes use of references in function declarations. 
+  * Many methods in Tetris, Playfield and Piece class use pass-by-reference in function declarations.
+
+>  TODO: Add more memory management good practices like RAII and smart pointers.
+
+## Concurrency
+
+>  TODO: Add concurrency with audio events running in different threads. 
+
 ## CC Attribution-ShareAlike 4.0 International
 
 
