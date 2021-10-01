@@ -1,4 +1,4 @@
-## CPPND: Capstone Tetris!
+# CPPND: Capstone Tetris!
 
 This is my Tetris clone Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213).
 
@@ -28,6 +28,35 @@ This is my Tetris clone Capstone project in the [Udacity C++ Nanodegree Program]
 3. Compile: `cmake .. && make`
 4. Run it: `./Tetris`.
 
+# Rubric requirements
+
+## Loops, Functions, I/O
+
+* The project accepts user input and processes the input.
+  * See [controller.cpp](https://github.com/Jaredkmacho/CppND-Capstone-Tetris/blob/main/src/controller.cpp) where SDL keyboard events are used to get input from the user.
+ 
+## Object Oriented Programming
+
+* The project uses Object Oriented Programming techniques. 
+  * See [Tetris.h](https://github.com/Jaredkmacho/CppND-Capstone-Tetris/blob/main/src/tetris.h) for classes like Tetris or Piece that encapsulates attributes and methods.
+
+* Classes use appropriate access specifiers for class members.
+  * See [Piece class](https://github.com/Jaredkmacho/CppND-Capstone-Tetris/blob/main/src/tetris.h#L29-L67) where access specifiers are used.
+
+* Classes encapsulate behavior.
+  * See [Piece::Rotate() method](https://github.com/Jaredkmacho/CppND-Capstone-Tetris/blob/5b2aa8ccc6276eaed3337273062153d2cbddbdd5/src/tetris.cpp#L357-L397) where Piece attributes are modified according to the expected behavior in Tetris.
+
+* Classes follow an appropriate inheritance hierarchy.
+  * See [controller.h](https://github.com/Jaredkmacho/CppND-Capstone-Tetris/blob/main/src/controller.h) where the abstract class Command is used as a base for more specific Commands, also the class Controller is composed of many Commands.
+
+* Overloaded functions allow the same function to operate on different parameters. 
+  * See [Tetris::spawnPiece() method](https://github.com/Jaredkmacho/CppND-Capstone-Tetris/blob/5b2aa8ccc6276eaed3337273062153d2cbddbdd5/src/tetris.cpp#L710-L732).
+
+* Derived class functions override virtual base class functions.
+  * See [setSprite() method](https://github.com/Jaredkmacho/CppND-Capstone-Tetris/blob/5b2aa8ccc6276eaed3337273062153d2cbddbdd5/src/tetris.h#L69-L116) in every Piece derived class.
+
+* Templates generalize functions in the project. 
+  * See [template spawnerFor class](https://github.com/Jaredkmacho/CppND-Capstone-Tetris/blob/5b2aa8ccc6276eaed3337273062153d2cbddbdd5/src/tetris.h#L125-L129) that can be used with any of the Piece derived classes. 
 
 ## CC Attribution-ShareAlike 4.0 International
 
