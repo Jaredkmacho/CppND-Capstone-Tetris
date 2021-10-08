@@ -6,6 +6,8 @@ This is my Tetris clone Capstone project in the [Udacity C++ Nanodegree Program]
 
 This is the classic Russian puzzle game where you drop pieces strategically to complete as many lines as you can, while avoiding the pieces to stack up to the top. In this version I added the handy next piece preview and the hability to store a piece for later use(which can be easily abused!).
 
+<img src="Game.gif"/>
+
 * Keybindings
   * LEFT, RIGHT and DOWN arrows move the piece.
   * UP arrow will rotate the piece.
